@@ -1,4 +1,6 @@
 const InsuranceType = require("../models/InsuranceType");
+const ErrorResponse = require("../util/errorResponse");
+
 // @desc    Get all Insurance types
 // @route   GET /api/v1/insuranceTypes
 // @access  Public
@@ -10,11 +12,7 @@ exports.getInsuranceTypes = async (req, res, next) => {
       data: insuranceTypes,
     });
   } catch (error) {
-    res.status(400).json({
-      success: false,
-      msg: "Bad request",
-    });
-  }
+   next(error)
 };
 
 // @desc    Get a Insurance type
@@ -24,20 +22,20 @@ exports.getInsuranceType = async (req, res, next) => {
   try {
     const insuranceType = await InsuranceType.findById(req.params.id);
     if (!insuranceType) {
-      res.status(404).json({
-        success: false,
-        msg: `Unable to locate insurance type for ${req.params.id}`,
-      });
+      return next(
+        new ErrorResponse(
+          `Unable to locate insurance type for ${req.params.id}`,
+          404
+        )
+      );
     }
     res.status(200).json({
       success: true,
       data: insuranceType,
     });
-  } catch (error) {}
-  res.status(400).json({
-    success: false,
-    msg: "Bad request",
-  });
+  } catch (error) {
+    next(error);
+  }
 };
 
 // @desc    Create insurance type
@@ -52,10 +50,7 @@ exports.addInsuranceType = async (req, res, next) => {
       data: insuranceType,
     });
   } catch (error) {
-    res.status(400).json({
-      success: false,
-      msg: "Bad request",
-    });
+    next(error);
   }
 };
 
@@ -71,10 +66,12 @@ exports.updateInsuranceType = async (req, res, next) => {
     );
 
     if (!insuranceType) {
-      return res.status(404).json({
-        success: false,
-        msg: `Unable to locate insurance type for ${req.params.id}`,
-      });
+      return next(
+        new ErrorResponse(
+          `Unable to locate insurance type for ${req.params.id}`,
+          404
+        )
+      );
     }
     res.status(200).json({
       success: true,
@@ -82,10 +79,7 @@ exports.updateInsuranceType = async (req, res, next) => {
       msg: `Update insurance type data for ${req.params.id}`,
     });
   } catch (error) {
-    res.status(400).json({
-      success: false,
-      msg: "Bad request",
-    });
+    next(error);
   }
 };
 
@@ -96,10 +90,12 @@ exports.deleteInsuranceType = async (req, res, next) => {
   try {
     const insuranceType = await InsuranceType.findByIdAndDelete(req.params.id);
     if (!insuranceType) {
-      return res.status(404).json({
-        success: false,
-        msg: `Unable to locate insurance type for ${req.params.id}`,
-      });
+      return next(
+        new ErrorResponse(
+          `Unable to locate insurance type for ${req.params.id}`,
+          404
+        )
+      );
     }
     res.status(200).json({
       success: true,
@@ -107,9 +103,10 @@ exports.deleteInsuranceType = async (req, res, next) => {
       msg: `Delete insurance type data for ${req.params.id}`,
     });
   } catch (error) {
-    res.status(400).json({
+    next(error);
+    /*  res.status(400).json({
       success: false,
       msg: "Bad request",
-    });
+    }); */
   }
 };
