@@ -15,6 +15,9 @@ const insuranceTypes = require("./routes/InsuranceTypes");
 
 const app = express();
 
+// body parser
+app.use(express.json());
+
 if (process.env.NODE_ENV === "development") {
   app.use(morgan("dev"));
 }
@@ -36,7 +39,7 @@ const server = app.listen(PORT, () => {
 
 // handle un-handled promise re-jections
 process.on("unhandledRejection", (error, promise) => {
-  console.log(`Error : ${error.message}`, red.bold);
+  console.log(`Error : ${error.message}`. red.bold);
 
   // close server and exit process
   server.close(() => process.exit(1));
