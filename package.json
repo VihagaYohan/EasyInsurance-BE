@@ -1,0 +1,22 @@
+{
+  "name": "easyinsurance",
+  "version": "1.0.0",
+  "description": "Backend for Insurance company.Easy Insurance - BE build with Node.JS, Express, MongoDB. ",
+  "main": "index.js",
+  "scripts": {
+    "start": "NODE_ENV=production node index.js",
+    "dev": "nodemon index.js"
+  },
+  "author": "H.V. Yohan",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^12.0.3",
+    "express": "^4.17.2",
+    "mongoose": "^6.1.6"
+  },
+  "devDependencies": {
+    "colors": "^1.4.0",
+    "morgan": "^1.10.0",
+    "nodemon": "^2.0.15"
+  }
+}
